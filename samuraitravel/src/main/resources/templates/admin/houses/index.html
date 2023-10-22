@@ -21,7 +21,9 @@
              <!-- ヘッダー -->
              <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm samuraitravel-navbar">
                  <div class="container samuraitravel-container">
-                     <a class="navbar-brand" th:href="@{/}">                        
+					 <!-- th:href属性でリンク先のルートパスを指定する -->
+                     <a class="navbar-brand" th:href="@{/}">
+						 <!-- th:srcでロゴ画像のルートパスを指定する -->                        
                          <img class="samuraitravel-logo me-1" th:src="@{/images/logo.png}" alt="SAMURAI Travel">                        
                      </a>                                                                    
                  </div>
@@ -49,8 +51,10 @@
                                          <th scope="col"></th>                                        
                                      </tr>
                                  </thead>   
-                                 <tbody>                                                     
+                                 <tbody>
+									 <!-- th:eachで繰り返し処理を行う　-->                                                     
                                      <tr th:each="house : ${houses}">
+										 <!-- th:text属性でテキスト表示する　-->
                                          <td th:text="${house.getId()}"></td>
                                          <td th:text="${house.getName()}"></td>
                                          <td th:text="${house.getPostalCode()}"></td>

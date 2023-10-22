@@ -42,7 +42,7 @@ public class House {
 	private String address;
 	
 	@Column(name = "phone_number")
-	private String phone_Number;
+    private String phoneNumber;
 	
 	@Column(name = "created_at", insertable = false, updatable = false )
 	private Timestamp createdAt;
