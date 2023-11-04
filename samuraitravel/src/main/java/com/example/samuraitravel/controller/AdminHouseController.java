@@ -6,6 +6,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -41,13 +42,23 @@ public class AdminHouseController {
     		//keywordがnullの場合、または、空であれば全件検索メソッドを呼び出す
     		housePage = houseRepository.findAll(pageable);
     	}
-    	
-    		
+    			
         //モデルクラスを使用してビューにデータを渡す
         model.addAttribute("housePage", housePage); 
         //フォームから受け取った情報をモデルへ
         model.addAttribute("keyword", keyword);
         
         return "admin/houses/index";
-    }  
+        
+    }
+    
+  //詳細ページ用
+    @GetMapping("/{id}")
+    public String show(@PathVariable(name = "id") Integer id, Model model) {
+    	House house = houseRepository.getReferenceById(id);
+    	
+    	model.addAttribute("house", house);
+    	
+    	return "admin/houses/show";
+    }
 }
