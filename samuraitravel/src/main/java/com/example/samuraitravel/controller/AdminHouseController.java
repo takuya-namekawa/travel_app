@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.samuraitravel.entity.House;
+import com.example.samuraitravel.form.HouseRegisterForm;
 import com.example.samuraitravel.repository.HouseRepository;
 
 @Controller
@@ -60,5 +61,13 @@ public class AdminHouseController {
     	model.addAttribute("house", house);
     	
     	return "admin/houses/show";
+    }
+    
+    //登録ページ用
+    @GetMapping("/register")
+    public String register(Model model) {
+    	//作成したフォーム用のクラスをオブジェクトを作成してmodelに渡す
+    	model.addAttribute("houseRegisterForm", new HouseRegisterForm());
+    	return "admin/houses/register";
     }
 }
