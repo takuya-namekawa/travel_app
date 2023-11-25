@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.samuraitravel.entity.House;
+import com.example.samuraitravel.form.HouseEditForm;
 import com.example.samuraitravel.form.HouseRegisterForm;
 import com.example.samuraitravel.repository.HouseRepository;
 import com.example.samuraitravel.service.HouseService;
@@ -80,15 +81,39 @@ public class AdminHouseController {
     }
     
     //登録処理用
+    //フォームはpost送信にしているためPostMappingにする
     @PostMapping("/create")
+    //@ModelAttributeでフォームクラスのインスタンスをバインド　@Validatedでフォームクラスのインスタンスに対してバリデーションを行う　@BindingResultはバリデーションの結果を保持するインターフェイス　@RedirectAttributesはリダイレクト先にデータを渡すための機能を提供するインターフェイス
     public String create(@ModelAttribute @Validated HouseRegisterForm houseRegisterForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    	//エラー検知すればregisterへ遷移させる
     	if (bindingResult.hasErrors()) {
     		return "admin/houses/register";
     	}
     	
+    	//エラーが無ければ、create実行
     	houseService.create(houseRegisterForm);
+    	//リダイレクト先へ渡すパラメータを設定
+    	//addFlashAttributeはレダイレクト先へ渡したら自動的に削除されるため一回限り使用するデータの時に使用する
     	redirectAttributes.addFlashAttribute("successMessage", "民宿を登録しました");
-    	
+    	//ビューを呼び出すのではなくリダイレクトさせる
     	return "redirect:/admin/houses";
+    }
+    
+    //編集ページ用
+    @GetMapping("/{id}/edit")
+    //PathVariableでURLの一部を引数にバインドする
+    public String edit(@PathVariable(name = "id") Integer id, Model model) {
+    	//エンティティの該当idを持ってくる
+    	House house = houseRepository.getReferenceById(id);
+    	//画像ファイルを格納する
+    	String imageName = house.getImageName();
+    	//houseEditFormのオブジェクトを生成し該当idの持っている情報をgeterで取得してEditForm用にパラメータを渡す
+    	HouseEditForm houseEditForm = new HouseEditForm(house.getId(), house.getName(), null, house.getDescription(), house.getPrice(), house.getCapacity(), house.getPostalCode(), house.getAddress(), house.getPhoneNumber());
+    	
+    	//渡された画像ファイル名と編集前情報をmodelに渡す
+    	model.addAttribute("imageName", imageName);
+    	model.addAttribute("houseEditForm", houseEditForm);
+    	//呼び出し元に返す
+    	return "admin/houses/edit";
     }
 }
