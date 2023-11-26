@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.samuraitravel.entity.House;
+import com.example.samuraitravel.form.HouseEditForm;
 import com.example.samuraitravel.form.HouseRegisterForm;
 import com.example.samuraitravel.repository.HouseRepository;
 //@Serviceを付ける事でこのクラスはサービスクラスとなる
@@ -56,6 +57,31 @@ public class HouseService {
 		house.setAddress(houseRegisterForm.getAddress());
 		house.setPhoneNumber(houseRegisterForm.getPhoneNumber());
 		//確定処理
+		houseRepository.save(house);
+	}
+	
+	//更新処理
+	//作成との違いはidを使って更新するエンティティの情報を取得する
+	public void update(HouseEditForm houseEditForm) {
+		House house = houseRepository.getReferenceById(houseEditForm.getId());
+		MultipartFile imageFile = houseEditForm.getImageFile();
+		
+		if (!imageFile.isEmpty()) {
+			String imageName = imageFile.getOriginalFilename();
+			String hashedImageName = generateNewName(imageName);
+			Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
+			copyImageFile(imageFile, filePath);
+			house.setImageName(hashedImageName);
+		}
+		
+		house.setName(houseEditForm.getName());
+		house.setDescription(houseEditForm.getDescription());
+		house.setPrice(houseEditForm.getPrice());
+		house.setCapacity(houseEditForm.getCapacity());
+		house.setPostalCode(houseEditForm.getPostalCode());
+		house.setAddress(houseEditForm.getAddress());
+		house.setPhoneNumber(houseEditForm.getPhoneNumber());
+		
 		houseRepository.save(house);
 	}
 	

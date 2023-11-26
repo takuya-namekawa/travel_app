@@ -116,4 +116,30 @@ public class AdminHouseController {
     	//呼び出し元に返す
     	return "admin/houses/edit";
     }
+    
+    //更新処理
+    @PostMapping("/{id}/update")
+    public String update(@ModelAttribute @Validated HouseEditForm houseEditForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    	
+    	if (bindingResult.hasErrors()) {
+    		return "admin/houses/edit";
+    	}
+    	
+    	houseService.update(houseEditForm);
+    	redirectAttributes.addFlashAttribute("successMessage", "民宿情報を編集しました");
+    	
+    	return "redirect:/admin/houses";
+    }
+    
+    //削除処理
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {
+    	houseRepository.deleteById(id);
+    	
+    	redirectAttributes.addFlashAttribute("successMessage", "民宿を削除しました");
+    	
+    	return "redirect:/admin/houses";
+    }
+    
+    
 }
