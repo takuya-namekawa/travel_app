@@ -57,6 +57,7 @@ public class UserDetailsImpl implements UserDetails{
 	}
 	
 	//ƒ†[ƒU‚ª—LŒø‚Å‚ ‚ê‚Îtrue‚ğ•Ô‚·
+	@Override
 	public boolean isEnabled() {
 		return user.getEnabled();
 	}
