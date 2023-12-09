@@ -36,7 +36,7 @@ public class UserService {
 		user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
 		user.setRole(role);
 		//メール認証済みかどうかを判断
-		user.setEnabled(true);
+		user.setEnabled(false);
 		
 		return userRepository.save(user);
 		
@@ -52,5 +52,11 @@ public class UserService {
 	//パスワードとパスワード(確認用)の入力値が一致するかどうか
 	public boolean isSamePassword(String password, String passwordConfirmation) {
 		return password.equals(passwordConfirmation);
+	}
+	//ユーザ情報を有効にする  認証成功した際に実行するメソッド
+	@Transactional
+	public void enableUser(User user) {
+		user.setEnabled(true);
+		userRepository.save(user);
 	}
 }

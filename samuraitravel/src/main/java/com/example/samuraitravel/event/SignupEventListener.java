@@ -16,9 +16,9 @@ public class SignupEventListener {
 	//メール送信用
 	private final JavaMailSender javaMailSender;
 	
-	public SignupEventListener(VerificationTokenService verificationTokenService, JavaMailSender javaMailSender) {
+	public SignupEventListener(VerificationTokenService verificationTokenService, JavaMailSender mailSender) {
 		this.verificationTokenService = verificationTokenService;
-		this.javaMailSender = javaMailSender;
+		this.javaMailSender = mailSender;
 	}
 	//SignupEventオブジェクトを引数に設定しているため、SignupEventクラスから通知を受けた時onSignupEventメソッドが実行される
 	@EventListener

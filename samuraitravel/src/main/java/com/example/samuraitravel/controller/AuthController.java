@@ -8,17 +8,29 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.samuraitravel.entity.User;
+import com.example.samuraitravel.entity.VerificationToken;
+import com.example.samuraitravel.event.SignupEventPublisher;
 import com.example.samuraitravel.form.SignupForm;
 import com.example.samuraitravel.service.UserService;
+import com.example.samuraitravel.service.VerificationTokenService;
+
+import jakarta.servlet.http.HttpServletRequest;
 //認証機能　会員登録用のコントローラ
 @Controller
 public class AuthController {
 	private final UserService userService;
+	private final SignupEventPublisher signupEventPublisher;
+	private final VerificationTokenService verificationTokenService;
 	
-	public AuthController(UserService userService) {
+	public AuthController(UserService userService, SignupEventPublisher signupEventPublisher, VerificationTokenService verificationTokenService) {
 		this.userService = userService;
+		this.signupEventPublisher = signupEventPublisher;
+		this.verificationTokenService = verificationTokenService;
+		
 	}
 	@GetMapping("/login")
 	public String login() {
@@ -32,7 +44,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/signup")
-	public String signup(@ModelAttribute @Validated SignupForm signupForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+	public String signup(@ModelAttribute @Validated SignupForm signupForm, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) {
 		//メールアドレスが登録済みであればBindingResultオブジェクトにエラーを追加する
 		if (userService.isEmailRegistered(signupForm.getEmail())) {
 			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "email", "すでに登録済みのメールアドレスです");
@@ -49,10 +61,31 @@ public class AuthController {
 			return "auth/signup";
 		}
 		
-		userService.create(signupForm);
-		redirectAttributes.addFlashAttribute("successMessege", "会員登録が完了しました");
+		User createdUser = userService.create(signupForm);
+		String requestUrl = new String(httpServletRequest.getRequestURL());
+		signupEventPublisher.publishSignupEvent(createdUser, requestUrl);
+		redirectAttributes.addFlashAttribute("successMessage", "ご入力いただいたメールアドレスに認証メールを送信しました。メールに記載されているリンクをクリックし、会員登録を完了してください");
 		
 		return "redirect:/";
 		
+	}
+	
+	//メール認証用
+	@GetMapping("/signup/verify")
+	public String verify(@RequestParam(name = "token") String token, Model model) {
+		VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
+		//トークンが存在すれば会員を有効にする
+		if (verificationToken != null) {
+			User user = verificationToken.getUser();
+			//トークンが存在するので、メール認証のパラメータをfalse -> trueへ切り替える　そのために定義しておいたenableUserメソッドを呼び出してセットする
+			userService.enableUser(user);
+			String successMessage = "会員登録が完了しました";
+			model.addAttribute("successMessage", successMessage);
+		} else {
+			String errorMessage = "トークンが無効です";
+			model.addAttribute("errorMessage", errorMessage);
+		}
+		
+		return "auth/verify";
 	}
 }
