@@ -36,6 +36,7 @@ public class SignupEventListener {
 		String message = "以下のリンクをクリックして会員登録を完了してください";
 		
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		mailMessage.setFrom("hogehoge@gmail.com");
 		//送信先のメールアドレスをセット
 		mailMessage.setTo(recipientAddress);
 		//件名をセット
