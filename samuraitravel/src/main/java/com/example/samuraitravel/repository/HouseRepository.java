@@ -9,6 +9,12 @@ import com.example.samuraitravel.entity.House;
 public interface HouseRepository extends JpaRepository<House, Integer>{
 	//検索用インターフェース追加
 	public Page<House> findByNameLike(String keyword, Pageable pageable);
+	
+	public Page<House> findByNameLikeOrAddressLike(String keyword, String address, Pageable pageable);
+	
+	public Page<House> findByAddressLike(String address, Pageable pageable);
+	
+	public Page<House> findByPriceLessThanEqual(Integer price, Pageable pageable);
 }
 //JpaRepositoryインターフェイスを継承するだけで、基本的なCRUD操作を行うメソッドが利用可能になる
 //findAll():テーブル内のすべてのエンティティを取得する
