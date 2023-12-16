@@ -22,7 +22,7 @@ public class WebSecurityConfig {
 		http
 		.authorizeHttpRequests((requests) -> requests
 			//全てのユーザにアクセスを許可するURL URLの/**はそのパス以下の全てのファイルが対象になる
-			.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**").permitAll()
+			.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**", "/houses").permitAll()
 			//管理者にのみアクセスを許可するURL　下記は@EnableMethodSecurityで有効にしたメソッド
 			.requestMatchers("/admin/**").hasRole("ADMIN")
 			//上記以外のURLはログインが必要
