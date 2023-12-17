@@ -108,6 +108,10 @@ html {
 	 height: 240px;
 	 object-fit: cover;
  }
+ 
+ .samuraitravel-sort-box {
+	 width: 150px;
+ }
   
  
  @media screen and (min-width: 1400px) {

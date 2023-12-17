@@ -26,6 +26,18 @@
 								<span th:text="${successMessage}"></span>
 							</div>
 							
+							<div class="d-flex jusitify-content-center">
+								<form method="get" th:action="@{/houses}" class="mb-5 samuraitravel-search-form">
+	                                 <div class="input-group">
+	                                     <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="民宿名・目的地">
+	                                     <button type="submit" class="btn text-white shadow-sm samuraitravel-btn">検索</button> 
+	                                 </div>               
+                            	</form>
+							</div>
+							
+							
+							
+							
 						</div>
 					</div>
 				</div>
