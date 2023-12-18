@@ -95,6 +95,10 @@ html {
 	 font-size: 1.25rem;
  }
  
+ h2 {
+	 font-size: 1.475rem;
+ }
+ 
  .samuraitravel-card-link {
 	 transition: 0.3s;
  }
@@ -111,6 +115,16 @@ html {
  
  .samuraitravel-sort-box {
 	 width: 150px;
+ }
+ 
+ .samuraitravel-vertical-card-image {
+	 width: 100%;
+	 height: 150px;
+	 object-fit: cover;
+ }
+ 
+ .samuraitravel-search-form {
+	 max-width: 300px;
  }
   
  
