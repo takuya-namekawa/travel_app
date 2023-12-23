@@ -41,3 +41,24 @@ CREATE TABLE IF NOT EXISTS houses (
     updated_at DATETIME  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id)
  );
+ 
+ CREATE TABLE IF NOT EXISTS reservations (
+	--id(主キー)
+ 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ 	--house_id (外部キー) 民宿のID
+ 	house_id INT NOT NULL,
+ 	--user_id (外部キー) ユーザのID
+ 	user_id INT NOT NULL,
+ 	--checkin_date  チェックイン日
+ 	checkin_date DATE NOT NULL,
+ 	--checkout_date チェックアウト日
+ 	checkout_date DATE NOT NULL,
+ 	--number_of_people  宿泊人数
+ 	number_of_people INT NOT NULL,
+ 	--amount  宿泊料金
+ 	amount INT NOT NULL,
+ 	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ 	updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ 	FOREIGN KEY (house_id) REFERENCES houses (id),
+ 	FOREIGN KEY (user_id) REFERENCES users (id)
+ );
