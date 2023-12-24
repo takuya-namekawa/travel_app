@@ -1,5 +1,6 @@
 package com.example.samuraitravel.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
@@ -13,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
