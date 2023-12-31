@@ -22,7 +22,7 @@ public class WebSecurityConfig {
 		http
 		.authorizeHttpRequests((requests) -> requests
 			//全てのユーザにアクセスを許可するURL URLの/**はそのパス以下の全てのファイルが対象になる
-			.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**", "/houses/{id}").permitAll()
+			.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**", "/houses/{id}", "/stripe/webhook").permitAll()
 			//管理者にのみアクセスを許可するURL　下記は@EnableMethodSecurityで有効にしたメソッド
 			.requestMatchers("/admin/**").hasRole("ADMIN")
 			//上記以外のURLはログインが必要
@@ -43,7 +43,10 @@ public class WebSecurityConfig {
 			//ログアウト時のリダイレクト先	
 			.logoutSuccessUrl("/?loggedOut")
 			.permitAll()
-		);
+		)
+		.csrf((csrf) -> csrf
+					.ignoringRequestMatchers("/stripe/webhook")
+				);
 	return http.build();
 	}
 	@Bean
