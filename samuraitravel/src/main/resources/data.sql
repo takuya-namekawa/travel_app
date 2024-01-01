@@ -85,3 +85,13 @@ INSERT IGNORE INTO reservations (id, house_id, user_id, checkin_date, checkout_d
 INSERT IGNORE INTO reservations (id, house_id, user_id, checkin_date, checkout_date, number_of_people, amount) VALUES (9, 9, 1, '2023-04-01', '2023-04-02', 5, 9000);
 INSERT IGNORE INTO reservations (id, house_id, user_id, checkin_date, checkout_date, number_of_people, amount) VALUES (10, 10, 1, '2023-04-01', '2023-04-02', 6, 10000);
 INSERT IGNORE INTO reservations (id, house_id, user_id, checkin_date, checkout_date, number_of_people, amount) VALUES (11, 11, 1, '2023-04-01', '2023-04-02', 2, 6000);
+
+-- reviewsÉeÅ[ÉuÉã --
+INSERT IGNORE INTO reviews (id, house_id, user_id, content, score) VALUES (1, 58, 1, 'test1' ,'3');
+INSERT IGNORE INTO reviews (id, house_id, user_id, content, score) VALUES (2, 58, 1, 'test2' ,'4');
+INSERT IGNORE INTO reviews (id, house_id, user_id, content, score) VALUES (3, 58, 9, 'test3' ,'5');
+INSERT IGNORE INTO reviews (id, house_id, user_id, content, score) VALUES (4, 58, 1, 'test4' ,'1');
+INSERT IGNORE INTO reviews (id, house_id, user_id, content, score) VALUES (5, 58, 9, 'test5' ,'2');
+INSERT IGNORE INTO reviews (id, house_id, user_id, content, score) VALUES (6, 58, 9, 'test6' ,'5');
+INSERT IGNORE INTO reviews (id, house_id, user_id, content, score) VALUES (7, 58, 9, 'test7' ,'2');
+

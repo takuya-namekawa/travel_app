@@ -166,6 +166,16 @@
 										 </div>
 									 </div>
 								 </div>
+								 
+								 <div th:if="${#lists.isEmpty(all)}">
+									 まだレビューがありません
+								 </div>
+								 
+								 <div th:each="review : ${all}">
+									 <div th:text="${review.getUser().getName()}"></div>
+									 <div th:text="${review.getScore()}"></div>
+									 <div th:text="${review.getContent()}"></div>
+								 </div>
 							 </div>
 						</div>
 					 </div>
