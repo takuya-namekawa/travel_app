@@ -33,6 +33,7 @@ public class Review {
 	@Column(name = "score")
 	private Integer score;
 	
+
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private Timestamp createdAt;
 	

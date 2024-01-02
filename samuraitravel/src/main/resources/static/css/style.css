@@ -126,6 +126,9 @@ html {
  .samuraitravel-search-form {
 	 max-width: 300px;
  }
+ .star {
+	 color: #ffc107;
+ }
   
  
  @media screen and (min-width: 1400px) {

@@ -19,5 +19,4 @@ public interface ReviewRepository extends JpaRepository<Review, Integer>{
 	public long countByHouse(House house);
 	//民宿の投稿された順に民宿情報を取得してページネーションで表示したい　レビュー一覧ページ用のメソッド
 	public Page<Review> findByHouseOrderByCreatedAtDesc(House house, Pageable pageable);
-	public List<Review> findAll();
 }

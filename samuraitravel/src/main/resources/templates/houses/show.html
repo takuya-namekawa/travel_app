@@ -167,15 +167,26 @@
 									 </div>
 								 </div>
 								 
-								 <div th:if="${#lists.isEmpty(all)}">
+								 <h5>レビュー</h5>
+								 
+								 <div th:unless="${reviewUser}">
+									 <button type="submit">レビューを投稿する</button>
+								 </div>
+								 
+								 <div th:if="${#lists.isEmpty(reviews)}">
 									 まだレビューがありません
 								 </div>
 								 
-								 <div th:each="review : ${all}">
+								 <div th:each="review : ${reviews}">
 									 <div th:text="${review.getUser().getName()}"></div>
-									 <div th:text="${review.getScore()}"></div>
+									 <span class="star" th:each="star : ${#numbers.sequence(1, 5)}" th:text="${star <= review.getScore()} ? '&#9733;' : '&#9734;'"></span>
 									 <div th:text="${review.getContent()}"></div>
+									 <div th:text="${#dates.format(review.getCreatedAt(), 'yyyy年MM月dd日')}"></div>
 								 </div>
+								 <div th:if="${reviewCount >= 6}">
+									 <a th:href="@{/houses/__${house.getId()}__/review}">すべてのレビューを見る</a>
+								 </div>
+								 
 							 </div>
 						</div>
 					 </div>

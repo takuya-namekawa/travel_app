@@ -84,15 +84,16 @@ public class HouseController {
     	 House house = houseRepository.getReferenceById(id);
     	 
     	 
-    	 List<Review> top6 = reviewRepository.findTop6ByHouseOrderByCreatedAtDesc(house);
+    	 List<Review> reviews = reviewRepository.findTop6ByHouseOrderByCreatedAtDesc(house);
     	 long reviewCount = reviewRepository.countByHouse(house);
-    	 List<Review> all = reviewRepository.findAll();
+    	 
+    	 boolean reviewUser = false;
     	 
     	 model.addAttribute("house", house);
     	 model.addAttribute("reservationInputForm", new ReservationInputForm());
-    	 model.addAttribute("top6", top6);
-    	 model.addAttribute("all", all);
+    	 model.addAttribute("reviews", reviews);
     	 model.addAttribute("reviewCount", reviewCount);
+    	 model.addAttribute("reviewUser", reviewUser);
     	 
     	 return "houses/show";
      }
