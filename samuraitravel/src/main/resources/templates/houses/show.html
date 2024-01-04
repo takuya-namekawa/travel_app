@@ -38,6 +38,10 @@
 								 <span th:text="${errorMessage}"></span>
 							 </div>
 							 
+							 <div th:if="${successMessage}" class="alert alert-info">
+								 <div th:text="${successMessage}"></div>
+							 </div>
+							 
 							 <div class="mb-4">
 								<img th:if="${house.getImageName()}" th:src="@{/storage/__${house.getImageName()}__}" class="w-100" alt="民宿画像">
 								<img th:unless="${house.getImageName()}" th:src="@{/images/noImage.png}" class="w-100" alt="NO IMAGE">
@@ -169,8 +173,12 @@
 								 
 								 <h5>レビュー</h5>
 								 
-								 <div th:unless="${reviewUser}">
-									 <button type="submit">レビューを投稿する</button>
+								 <div sec:authorize="isAuthenticated()">
+									 <div th:unless="${reviewUser}">
+										 <form method="get" th:action="@{/houses/__${house.getId()}__/review/register}">	 
+											<button type="submit">レビューを投稿する</button>	
+										 </form>
+									  </div>
 								 </div>
 								 
 								 <div th:if="${#lists.isEmpty(reviews)}">

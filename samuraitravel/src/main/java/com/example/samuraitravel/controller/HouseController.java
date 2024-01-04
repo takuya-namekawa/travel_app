@@ -16,20 +16,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.samuraitravel.entity.House;
 import com.example.samuraitravel.entity.Review;
+import com.example.samuraitravel.entity.User;
 import com.example.samuraitravel.form.ReservationInputForm;
 import com.example.samuraitravel.repository.HouseRepository;
 import com.example.samuraitravel.repository.ReviewRepository;
 import com.example.samuraitravel.security.UserDetailsImpl;
+import com.example.samuraitravel.service.ReviewService;
  
  @Controller
  @RequestMapping("/houses")
 public class HouseController {
      private final HouseRepository houseRepository;
      private final ReviewRepository reviewRepository;
+     private final ReviewService reviewService;
      
-     public HouseController(HouseRepository houseRepository, ReviewRepository reviewRepository) {
+     public HouseController(HouseRepository houseRepository, ReviewRepository reviewRepository, ReviewService reviewService) {
          this.houseRepository = houseRepository; 
          this.reviewRepository = reviewRepository;
+         this.reviewService = reviewService;
      }     
    
      @GetMapping
@@ -83,11 +87,19 @@ public class HouseController {
     		 			Model model) {
     	 House house = houseRepository.getReferenceById(id);
     	 
+    	 boolean reviewUser = false;
     	 
     	 List<Review> reviews = reviewRepository.findTop6ByHouseOrderByCreatedAtDesc(house);
     	 long reviewCount = reviewRepository.countByHouse(house);
     	 
-    	 boolean reviewUser = false;
+    	 //ログイン情報があればレビューをしているかどうかの確認をする
+    	 if (userDetailsImpl != null) {
+    		 //ログインしているユーザの情報を取得して
+    		 User user = userDetailsImpl.getUser();
+    		 //レビューが投稿されているかを確認した結果、投稿されていればtrue  してなければfalse
+    		 reviewUser = reviewService.reviewUser(house, user);
+    	 }
+    	
     	 
     	 model.addAttribute("house", house);
     	 model.addAttribute("reservationInputForm", new ReservationInputForm());

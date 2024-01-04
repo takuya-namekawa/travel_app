@@ -81,6 +81,8 @@ public class StripeService {
 	
 	//セッションから予約情報を取得し。ReservationServiceクラスを介してデータベースに登録する
 	public void processSessionCompleted(Event event) {
+		//getObject()でAPIバージョンとSDKバージョンのチェックを行っている
+		//そのためgradleのバージョンを最新バーションに上げる必要がある
 		Optional<StripeObject> optionalStripeObject = event.getDataObjectDeserializer().getObject();
 		optionalStripeObject.ifPresent(stripeObject -> {
 			Session session = (Session)stripeObject;

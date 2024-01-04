@@ -33,6 +33,7 @@ public class StripeWebhookController {
 	
 	@PostMapping("stripe/webhook")
 	public ResponseEntity<String> webhook(@RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader) {
+		System.out.println("stripe/webhook-comming");
 		Stripe.apiKey = stripeApiKey;
 		Event event = null;
 		
