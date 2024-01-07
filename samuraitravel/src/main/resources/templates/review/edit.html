@@ -4,7 +4,7 @@
          <div th:replace="~{fragment :: meta}"></div>
          <div th:replace="~{fragment :: styles}"></div>
 
-		<title>レビュー投稿ページ</title>
+		<title>レビュー編集ページ</title>
 	</head>
 	<body>
 		<div class="samuraitravel-wrapper">
@@ -18,16 +18,17 @@
 								<ol class="breadcrumb mb-0">
 									<li class="breadcrumb-item"><a th:href="@{/houses}">民宿一覧</a></li>
 									<li class="breadcrumb-item"><a th:href="@{/houses/__${house.getId()}__}">民宿詳細</a></li>
-									<li class="breadcrumb-item active" aria-current="page">レビュー投稿</li>
+									<li class="breadcrumb-item active" aria-current="page">レビュー編集</li>
 								</ol>
 							</nav>
 							
-							<h1 class="text-center mb-4" th:text="${house.getName() + 'のレビュー投稿'}"></h1>
+							<h1 class="text-center mb-4" th:text="${house.getName() + 'のレビュー編集'}"></h1>
 							
-							<form method="post" th:action="@{/houses/__${house.getId()}__/review/create}" th:object="${reviewRegisterForm}">
+							<form method="post" th:action="@{/houses/__${house.getId()}__/review/__${review.getId()}__/update}" th:object="${reviewEditForm}">
+								<input type="hidden" th:field="*{id}">
 								<div class="form-group row mb-3">
 									<div class="col-md-3">
-										<label for="score" class="text-md-left fw-bold">評価</label>
+										<label for="score" class="col-form-label text-md-left fw-bold">評価</label>
 									</div>
 									<div class="col-md-9">
 										<select class="form-select star" name="content" th:field="*{score}">
@@ -48,11 +49,10 @@
 										<div th:if="${#fields.hasErrors('content')}" class="text-danger small mb-2" th:errors="*{content}"></div>
 										<textarea class="form-control" th:field="*{content}" cols="30" rows="5"></textarea>
 									</div>
-									
 								</div>
 							
 								<div class="form-group d-flex justify-content-center my-4">
-									<button type="submit" class="btn text-white shadow-sm w-50 samuraitravel-btn">登録</button>
+									<button type="submit" class="btn text-white shadow-sm w-50 samuraitravel-btn">更新</button>
 								</div>
 								
 							</form>	

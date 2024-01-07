@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.samuraitravel.entity.House;
 import com.example.samuraitravel.entity.Review;
 import com.example.samuraitravel.entity.User;
+import com.example.samuraitravel.form.ReviewEditForm;
 import com.example.samuraitravel.form.ReviewRegisterForm;
 import com.example.samuraitravel.repository.ReviewRepository;
 
@@ -28,7 +29,14 @@ public class ReviewService {
 		reviewRepository.save(review);
 	}
 	
-	
+	public void update(ReviewEditForm reviewEditForm) {
+		Review review = reviewRepository.getReferenceById(reviewEditForm.getId());
+		
+		review.setScore(reviewEditForm.getScore());
+		review.setContent(reviewEditForm.getContent());
+		
+		reviewRepository.save(review);
+	}
 	
 	
 	public boolean reviewUser(House house, User user) {
